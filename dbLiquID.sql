@@ -1,0 +1,10 @@
+CREATE DATABASE liquID;
+
+CREATE TABLE users(
+idUser INT NOT NULL AUTO_INCREMENT,
+nomeUser VARCHAR(45),
+email VARCHAR(45),
+password VARCHAR(30),
+PRIMARY KEY (idUser)
+);
+
