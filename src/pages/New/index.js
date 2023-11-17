@@ -14,6 +14,7 @@ import {
   FlatList,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function New() {
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
@@ -62,36 +63,33 @@ export default function New() {
   };
 
   return (
-    <SafeAreaView>
-      <Animated.View
-        style={[
-          styles.header,
-          {
-            height: scrollY.interpolate({
-              inputRange: [10, 160, 185],
-              outputRange: [140, 20, 0],
-              extrapolate: 'clamp',
-            }),
-            opacity: scrollY.interpolate({
-              inputRange: [1, 75, 170],
-              outputRange: [1, 1, 0],
-              extrapolate: 'clamp',
-            },
-          )}]}
-        >
-        <FontAwesome name="home" size={35} color="white" />
+    <SafeAreaView style={{backgroundColor:'#111'}}>
+        <Animated.View style={[
+        styles.header,
+        {
+          height: scrollY.interpolate({
+            inputRange: [10, 160, 185],
+            outputRange: [140, 20, 0],
+            extrapolate: 'clamp'
+          }),
+          opacity: scrollY.interpolate({
+            inputRange: [1, 75, 170],
+            outputRange: [1, 1, 0],
+            extrapolate: 'clamp'
+          })
+        }
+      ]}>
         <Animated.Image
           source={require('./img/color_transparent.png')}
-          style={{ width: 300, height: 300 }}
-          resizeMode="contain"
+          style={{ width: 180, height: 180 }}
         />
-        <Image
-          source={require('./img/color_transparent.png')}
-          style={{ width: 35, height: 150 }}
-          resizeMode="contain"
-        />
+        <View style={styles.icons}>
+        <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
+          <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
+          <Ionicons name="notifications-outline" size={30} color={'#8a08bb'} />
+        </View>
       </Animated.View>
-      <ScrollView
+      <ScrollView 
         scrollEventThrottle={16}
         onScroll={Animated.event(
           [
@@ -143,7 +141,7 @@ export default function New() {
             </View>
           </Camera>
           <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <FontAwesome name="camera" size={23} color={'black'} />
+            <FontAwesome name="camera" size={23} color={'white'} />
           </TouchableOpacity>
         </View>
         <FlatList
@@ -163,20 +161,25 @@ export default function New() {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: 'black',
+    backgroundColor: '#111',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: '#FFF',
+    marginTop: -50,
+    marginBottom: -40,
+    paddingRight: 30,
+  
+  },
+  icons: {
+    flexDirection: 'row',
+    gap: 15,
   },
   box: {
-    height: 300,
+    height: 600,
     backgroundColor: '#ddd',
-    margin: 7,
-    borderRadius: 5,
+    marginTop: 30,
+    marginBottom:10,
+    borderRadius: 10,
   },
   button: {
     justifyContent: 'center',

@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, Platform, Pressable, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { TruncatedTextView } from 'react-native-truncated-text-view';
-import { BlurView } from 'expo-blur';
-import { Ionicons } from '@expo/vector-icons'
+import { View, Text, StyleSheet, Platform, Pressable, Image, TouchableOpacity, Dimensions } from 'react-native';
 
-const { height: heightScreen } = Dimensions.get("screen")
+const windowWidth = Dimensions.get('window').width/3.1;
+const windowHeight = Dimensions.get('window').height;
 
 export function ProfilePost({ data }) {
 
@@ -13,7 +11,7 @@ export function ProfilePost({ data }) {
     <TouchableOpacity style={styles.press}>
       <Image
         source={data.image}
-        style={{ width: '33%', height: 150 }}
+        style={{ width: windowWidth, height: 150 }}
       />
     </TouchableOpacity>
   );

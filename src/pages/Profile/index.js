@@ -2,55 +2,65 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Image, Text, View, SafeAreaView, ScrollView, Animated, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { ProfilePost } from '../../components/profilePost'
 import { Ionicons } from '@expo/vector-icons'
+import { useMeuContexto } from '../../contexts/MeuContexto';
+import BarBot  from '../Barbot/barbot'
 
 export default function Profile() {
-  let feedItemsUm = [
-    {
-      id: '1',
-      image: require('./img/blackVelvet.jpg'),
-      name: 'Saulo Tavares',
-      drink: 'BLACK VELVET',
-      description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
-    },
-    {
-      id: '2',
-      image: require('./img/chocolate.jpg'),
-      name: 'Rafael Pacheco',
-      drink: 'CHOCOLATE',
-      description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
-    },
-    {
-      id: '3',
-      image: require('./img/superb.jpg'),
-      name: 'Rodrigo Ramos',
-      drink: 'SUPERB',
-      description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
-    },
-    {
-      id: '4',
-      image: require('./img/blackVelvet.jpg'),
-      name: 'Saulo Tavares',
-      drink: 'BLACK VELVET',
-      description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
-    },
-    {
-      id: '5',
-      image: require('./img/chocolate.jpg'),
-      name: 'Rafael Pacheco',
-      drink: 'CHOCOLATE',
-      description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
-    },
-    {
-      id: '6',
-      image: require('./img/superb.jpg'),
-      name: 'Rodrigo Ramos',
-      drink: 'SUPERB',
-      description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
-    }
-  ]
+
+  const { feedItems } = useMeuContexto();
+  // let feedItems = [
+  //   {
+  //     id: '1',
+  //     image: require('./img/blackVelvet.jpg'),
+  //     name: 'Saulo Tavares',
+  //     drink: 'BLACK VELVET',
+  //     description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
+  //   },
+  //   {
+  //     id: '2',
+  //     image: require('./img/chocolate.jpg'),
+  //     name: 'Rafael Pacheco',
+  //     drink: 'CHOCOLATE',
+  //     description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
+  //   },
+  //   {
+  //     id: '3',
+  //     image: require('./img/superb.jpg'),
+  //     name: 'Rodrigo Ramos',
+  //     drink: 'SUPERB',
+  //     description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
+  //   },
+  //   {
+  //     id: '4',
+  //     image: require('./img/blackVelvet.jpg'),
+  //     name: 'Saulo Tavares',
+  //     drink: 'BLACK VELVET',
+  //     description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
+  //   },
+  //   {
+  //     id: '5',
+  //     image: require('./img/chocolate.jpg'),
+  //     name: 'Rafael Pacheco',
+  //     drink: 'CHOCOLATE',
+  //     description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
+  //   },
+  //   {
+  //     id: '6',
+  //     image: require('./img/superb.jpg'),
+  //     name: 'Rodrigo Ramos',
+  //     drink: 'SUPERB',
+  //     description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
+  //   }
+  // ]
 
 
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
+  const [isBarBotModalVisible, setBarBotModalVisible] = useState(false);
+
+  const toggleBarBotModal = () => {
+    setBarBotModalVisible(!isBarBotModalVisible);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View style={[
@@ -74,11 +84,13 @@ export default function Profile() {
         />
         <View style={styles.icons}>
           <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
-          <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
+          <TouchableOpacity onPress={toggleBarBotModal}>
+            <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
+          </TouchableOpacity>
           <Ionicons name="notifications-outline" size={30} color={'#8a08bb'} />
         </View>
       </Animated.View>
-      <ScrollView
+      <View
         scrollEventThrottle={16}
         onScroll={Animated.event([{
           nativeEvent: {
@@ -118,13 +130,20 @@ export default function Profile() {
         </View>
         <ScrollView style={styles.postBox}>
         <FlatList
+        style={styles.flat}
         data={feedItems}
         renderItem={({ item }) => <ProfilePost data={item} />}
-        // showsHorizontalScrollIndicator={false}
-        // horizontal={true}
+        showsVerticalScrollIndicator={false}
+        numColumns={3}
       />
         </ScrollView>
-      </ScrollView>
+      </View>
+      <Modal animationType="slide" transparent={false} visible={isBarBotModalVisible} onRequestClose={toggleBarBotModal}>
+        <BarBot />
+        <TouchableOpacity style={styles.closeModalButton} onPress={toggleBarBotModal}>
+          <Text style={styles.closeModalText}>Voltar</Text>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -152,10 +171,10 @@ const styles = StyleSheet.create({
     gap: 15
   },
   postBox: {
-    height: '100%',
-    backgroundColor: '#ddd',
+    backgroundColor: '#111',
     margin: 7,
     borderRadius: 5,
+    overflow: 'hidden',
   },
   button: {
     justifyContent: 'center',
@@ -219,6 +238,23 @@ const styles = StyleSheet.create({
   },
   editText: {
     color: '#FFF',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  flat: {
+    height: 1000,
+    width: '100%'
+  },
+  closeModalButton: {
+    position: 'absolute',
+    top: 55,
+    left: 20,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeModalText: {
+    color: '#111',
     textAlign: 'center',
     fontWeight: 'bold',
   },
