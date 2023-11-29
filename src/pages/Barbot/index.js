@@ -6,7 +6,7 @@ import axios from 'axios';
 const BarBot = () => {
   const [messages, setMessages] = useState([]);
 
-  const YOUR_CHATGPT_API_KEY = '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';
+  const YOUR_CHATGPT_API_KEY = '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';
 
   const handleSend = async (newMessages = []) => {
     try {

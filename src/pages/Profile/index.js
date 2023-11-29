@@ -8,50 +8,6 @@ import BarBot  from '../Barbot/barbot'
 export default function Profile() {
 
   const { feedItems } = useMeuContexto();
-  // let feedItems = [
-  //   {
-  //     id: '1',
-  //     image: require('./img/blackVelvet.jpg'),
-  //     name: 'Saulo Tavares',
-  //     drink: 'BLACK VELVET',
-  //     description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
-  //   },
-  //   {
-  //     id: '2',
-  //     image: require('./img/chocolate.jpg'),
-  //     name: 'Rafael Pacheco',
-  //     drink: 'CHOCOLATE',
-  //     description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
-  //   },
-  //   {
-  //     id: '3',
-  //     image: require('./img/superb.jpg'),
-  //     name: 'Rodrigo Ramos',
-  //     drink: 'SUPERB',
-  //     description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
-  //   },
-  //   {
-  //     id: '4',
-  //     image: require('./img/blackVelvet.jpg'),
-  //     name: 'Saulo Tavares',
-  //     drink: 'BLACK VELVET',
-  //     description: 'Esse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black VelvetEsse é o Black Velvet',
-  //   },
-  //   {
-  //     id: '5',
-  //     image: require('./img/chocolate.jpg'),
-  //     name: 'Rafael Pacheco',
-  //     drink: 'CHOCOLATE',
-  //     description: 'Esse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o ChocolateEsse é o Chocolate',
-  //   },
-  //   {
-  //     id: '6',
-  //     image: require('./img/superb.jpg'),
-  //     name: 'Rodrigo Ramos',
-  //     drink: 'SUPERB',
-  //     description: 'Esse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o SuperbEsse é o Superb',
-  //   }
-  // ]
 
 
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
@@ -83,7 +39,7 @@ export default function Profile() {
           style={{ width: 180, height: 180 }}
         />
         <View style={styles.icons}>
-          <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
+          {/* <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} /> */}
           <TouchableOpacity onPress={toggleBarBotModal}>
             <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
           </TouchableOpacity>
@@ -231,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   editButton: {
-    marginTop: 30,
+    marginTop: 12,
     backgroundColor: '#111',
     padding: 10,
     borderRadius: 5,
