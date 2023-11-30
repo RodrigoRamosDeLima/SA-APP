@@ -1,17 +1,32 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Login from '../pages/Login/index'; 
+import Cadastro from '../pages/Login/cadastro'; 
 
-import Home from '../pages/Home'
-import Inbox from '../pages/Inbox'
-import New from '../pages/New'
-import Profile from '../pages/Profile'
-import Search from '../pages/Search'
-import ButtonNew from '../components/buttonNewPost'
+import Home from '../pages/Home';
+import Inbox from '../pages/Inbox';
+import New from '../pages/New';
+import Profile from '../pages/Profile';
+import Search from '../pages/Search';
+import ButtonNew from '../components/buttonNewPost';
 
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export function Routes() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+    <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
+    <Stack.Screen name="Home" component={TabRoutes} options={{ headerShown: false }} />
+  </Stack.Navigator>
+  
+  );
+}
+
+function TabRoutes() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -88,5 +103,5 @@ export function Routes() {
         }}
       />
     </Tab.Navigator >
-  )
+  );
 }

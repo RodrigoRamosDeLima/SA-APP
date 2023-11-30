@@ -1,45 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  StyleSheet,
-  Text,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
   View,
+  StatusBar,
   Image,
   TextInput,
   TouchableOpacity,
-  Platform,
-  KeyboardAvoidingView,
+  Text,
+  StyleSheet,
   Keyboard,
-  TouchableWithoutFeedback,
+  Platform,
+  Alert,
 } from 'react-native';
+import * as yup from 'yup';
 
-export default function App() {
+const validationSchema = yup.object().shape({
+  email: yup.string().email('Por favor, insira um e-mail válido.').required('O e-mail é obrigatório.'),
+  password: yup.string().min(4, 'A senha deve conter mais de 4 caracteres.').required('A senha é obrigatória.'),
+});
+
+export default function Login({ navigation }) {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+
+  const handleLogin = async () => {
+    try {
+      await validationSchema.validate(formData);
+
+      Alert.alert('Sucesso', 'Você foi logado com sucesso!');
+      navigation.navigate('Home');
+    } catch (error) {
+      // Limpa os campos de entrada se a validação falhar
+      setFormData({ email: '', password: '' });
+
+      Alert.alert('Erro', error.message);
+    }
+  };
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <StatusBar backgroundColor="#fff" translucent={false} />
-          <Image source={require('./src/img/color_transparent.png')} style={styles.logo} />
-          <TextInput placeholder='Celular, username ou email' style={styles.input} />
-          <TextInput placeholder='Sua senha' style={styles.input} />
-
-          <View style={styles.forgotContainer}>
-            <TouchableOpacity>
-              <Text style={styles.forgotText}>Esqueceu sua senha?</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.loginButton}>
+          <Image source={require('../Login/img/color_transparent.png')} style={styles.logo} />
+          
+          <TextInput
+            placeholder='E-mail'
+            style={styles.input}
+            onChangeText={(text) => setFormData({ ...formData, email: text })}
+            value={formData.email}
+          />
+          <TextInput
+            placeholder='Sua senha'
+            style={styles.input}
+            onChangeText={(text) => setFormData({ ...formData, password: text })}
+            value={formData.password}
+            secureTextEntry
+          />
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginText}>Acessar</Text>
           </TouchableOpacity>
 
           <View style={styles.divisor}>
             <View style={styles.divisorLine}></View>
-            <Text style={{ marginHorizontal: '3%', color:'#c4c4c4' }}> OU</Text>
+            <Text style={{ marginHorizontal: '3%', color: '#c4c4c4' }}> OU</Text>
             <View style={styles.divisorLine}></View>
           </View>
           <View style={styles.signUpContainer}>
-            <Text style={styles.signUpText}>Não possui uma conta?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
               <Text style={styles.signUpButton}>Cadastre-se!</Text>
             </TouchableOpacity>
           </View>
@@ -54,11 +82,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 350
+    paddingBottom: 350,
   },
   logo: {
-    width:'110%',
-    height:'20%',
+    width: '110%',
+    height: '20%',
     paddingTop: '50%',
     marginTop: Platform.OS === 'android' ? '13%' : '20%',
     marginBottom: Platform.OS === 'android' ? '13%' : '15%',
@@ -70,13 +98,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 8,
     borderRadius: 5,
-  },
-  forgotContainer: {
-    width: '90%',
-    alignItems: 'flex-end',
-  },
-  forgotText: {
-    color: '#8a08bb',
   },
   loginButton: {
     marginTop: '5%',
@@ -114,6 +135,7 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     color: '#8a08bb',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
