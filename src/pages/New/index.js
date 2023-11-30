@@ -63,7 +63,7 @@ export default function New() {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor:'#111'}}>
+    <SafeAreaView >
         <Animated.View style={[
         styles.header,
         {
@@ -84,9 +84,9 @@ export default function New() {
           style={{ width: 180, height: 180 }}
         />
         <View style={styles.icons}>
-        <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
+        {/* <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
           <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
-          <Ionicons name="notifications-outline" size={30} color={'#8a08bb'} />
+          <Ionicons name="notifications-outline" size={30} color={'#8a08bb'} /> */}
         </View>
       </Animated.View>
       <ScrollView 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   postButton: {
-    backgroundColor: 'blue',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
   },
