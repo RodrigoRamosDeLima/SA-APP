@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import {
   StyleSheet,
   Image,
@@ -14,12 +15,12 @@ import {
   FlatList,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 
 export default function New() {
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const camRef = useRef(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [open, setOpen] = useState(false);
@@ -28,22 +29,45 @@ export default function New() {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+      const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync();
+      const { status: galleryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasCameraPermission(cameraStatus === 'granted');
+      setHasGalleryPermission(galleryStatus === 'granted');
     })();
   }, []);
 
-  if (hasPermission === null) {
+  if (hasCameraPermission === null || hasGalleryPermission === null) {
     return <View />;
   }
-  if (hasPermission === false) {
-    return <Text>Acesso negado!</Text>;
+
+  if (hasCameraPermission === false || hasGalleryPermission === false) {
+    return <Text>Acesso negado à câmera ou à galeria!</Text>;
   }
 
   async function takePicture() {
-    if (camRef) {
-      const data = await camRef.current.takePictureAsync();
-      setCapturedPhoto(data.uri);
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setCapturedPhoto(result.uri);
+      setOpen(true);
+    }
+  }
+
+  async function pickImage() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setCapturedPhoto(result.uri);
       setOpen(true);
     }
   }
@@ -58,38 +82,33 @@ export default function New() {
       setPosts([...posts, newPost]);
       setDescription('');
       setCapturedPhoto(null);
-      setOpen(false); 
+      setOpen(false);
     }
   };
 
   return (
-    <SafeAreaView >
-        <Animated.View style={[
-        styles.header,
-        {
-          height: scrollY.interpolate({
-            inputRange: [10, 160, 185],
-            outputRange: [140, 20, 0],
-            extrapolate: 'clamp'
-          }),
-          opacity: scrollY.interpolate({
-            inputRange: [1, 75, 170],
-            outputRange: [1, 1, 0],
-            extrapolate: 'clamp'
-          })
-        }
-      ]}>
-        <Animated.Image
-          source={require('./img/color_transparent.png')}
-          style={{ width: 180, height: 180 }}
-        />
-        <View style={styles.icons}>
-        {/* <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} />
-          <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
-          <Ionicons name="notifications-outline" size={30} color={'#8a08bb'} /> */}
-        </View>
+    <SafeAreaView>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: scrollY.interpolate({
+              inputRange: [10, 160, 185],
+              outputRange: [140, 20, 0],
+              extrapolate: 'clamp',
+            }),
+            opacity: scrollY.interpolate({
+              inputRange: [1, 75, 170],
+              outputRange: [1, 1, 0],
+              extrapolate: 'clamp',
+            }),
+          },
+        ]}
+      >
+        <Animated.Image source={require('./img/color_transparent.png')} style={{ width: 180, height: 180 }} />
+        <View style={styles.icons}></View>
       </Animated.View>
-      <ScrollView 
+      <ScrollView
         scrollEventThrottle={16}
         onScroll={Animated.event(
           [
@@ -143,6 +162,9 @@ export default function New() {
           <TouchableOpacity style={styles.button} onPress={takePicture}>
             <FontAwesome name="camera" size={23} color={'white'} />
           </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={pickImage}>
+            <FontAwesome name="photo" size={23} color={'white'} />
+          </TouchableOpacity>
         </View>
         <FlatList
           data={posts}
@@ -168,7 +190,6 @@ const styles = StyleSheet.create({
     marginTop: -50,
     marginBottom: -40,
     paddingRight: 30,
-  
   },
   icons: {
     flexDirection: 'row',
@@ -178,7 +199,7 @@ const styles = StyleSheet.create({
     height: 600,
     backgroundColor: '#ddd',
     marginTop: 30,
-    marginBottom:10,
+    marginBottom: 10,
     borderRadius: 10,
   },
   button: {
@@ -200,21 +221,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
-  },
-  postButtonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  postContainer: {
-    margin: 10,
-    alignItems: 'center',
-  },
-  postImage: {
-    width: 300,
-    height: 200,
-    borderRadius: 10,
-  },
-  postDescription: {
-    marginTop: 10,
-  },
+  }
 });

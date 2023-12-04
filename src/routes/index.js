@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from '../pages/Login/index'; 
@@ -18,11 +19,10 @@ const Tab = createBottomTabNavigator();
 export function Routes() {
   return (
     <Stack.Navigator initialRouteName="Login">
-    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-    <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
-    <Stack.Screen name="Home" component={TabRoutes} options={{ headerShown: false }} />
-  </Stack.Navigator>
-  
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={TabRoutes} options={{ headerShown: false }} />
+    </Stack.Navigator>
   );
 }
 
@@ -43,65 +43,60 @@ function TabRoutes() {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({ focused, size, color }) => {
-            if (focused) {
-              return <Ionicons name="home" size={size} color={color} />
-            } else {
-              return <Ionicons name="home-outline" size={size} color={color} />
-            }
-          }
+          tabBarIcon: ({ focused, size, color }) => (
+            focused ? 
+            <Ionicons name="home" size={size} color={color} />
+            :
+            <Ionicons name="home-outline" size={size} color={color} />
+          )
         }}
       />
       <Tab.Screen
         name="Search"
         component={Search}
         options={{
-          tabBarIcon: ({ focused, size, color }) => {
-            if (focused) {
-              return <Ionicons name="newspaper" size={size} color={color} />
-            } else {
-              return <Ionicons name="newspaper-outline" size={size} color={color} />
-            }
-          }
+          tabBarIcon: ({ focused, size, color }) => (
+            focused ? 
+            <Ionicons name="newspaper" size={size} color={color} />
+            :
+            <Ionicons name="newspaper-outline" size={size} color={color} />
+          )
         }}
       />
-
       <Tab.Screen
         name="New"
         component={New}
         options={{
-          tabBarIcon: ({ size }) => {
-            return <ButtonNew size={size} />
-          }
+          tabBarIcon: ({ size }) => <ButtonNew size={size} />
         }}
       />
-
       <Tab.Screen
         name="Inbox"
         component={Inbox}
         options={{
-          tabBarIcon: ({ focused, size, color }) => {
-            if (focused) {
-              return <Ionicons name="people" size={size} color={color} />
-            } else {
-              return <Ionicons name="people-outline" size={size} color={color} />
-            }
-          }
+          tabBarIcon: ({ focused, size, color }) => (
+            focused ? 
+            <Ionicons name="people" size={size} color={color} />
+            :
+            <Ionicons name="people-outline" size={size} color={color} />
+          )
         }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({ focused, size, color }) => {
-            if (focused) {
-              return <Ionicons name="person" size={size} color={color} />
-            } else {
-              return <Ionicons name="person-outline" size={size} color={color} />
-            }
-          }
+          tabBarIcon: ({ focused, size, color }) => (
+            focused ? 
+            <Ionicons name="person" size={size} color={color} />
+            :
+            <Ionicons name="person-outline" size={size} color={color} />
+          )
         }}
       />
-    </Tab.Navigator >
+    </Tab.Navigator>
   );
 }
+
+
+
