@@ -30,7 +30,7 @@ export default function Login({ navigation }) {
       Alert.alert('Sucesso', 'Você foi logado com sucesso!');
       navigation.navigate('Home');
     } catch (error) {
-      // Limpa os campos de entrada se a validação falhar
+      
       setFormData({ email: '', password: '' });
 
       Alert.alert('Erro', error.message);

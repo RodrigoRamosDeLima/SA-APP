@@ -10,10 +10,10 @@ const BarBot = () => {
 
   const handleSend = async (newMessages = []) => {
     try {
-      // Get the user's message
+      
       const userMessage = newMessages[0];
 
-      // Add the user's message to the messages state
+      
       setMessages((previousMessages) => GiftedChat.append(previousMessages, userMessage));
       const messageText = userMessage.text.toLowerCase();
       const keywords = [
@@ -50,7 +50,7 @@ const BarBot = () => {
       
       
       if (!keywords.some((keyword) => messageText.includes(keyword))) {
-        // If the message does NOT contain any drink-related keyword, respond with a default message
+        
         const botMessage = {
           _id: new Date().getTime() + 1,
           text: 'Eu sou o seu BarBot, pergunte-me como fazer um drink com o que você possui na sua casa',
@@ -63,7 +63,7 @@ const BarBot = () => {
         setMessages((previousMessages) => GiftedChat.append(previousMessages, botMessage));
         return;
       }
-      // If the message contains any drink-related word, fetch a recipe from the API and respond with it
+      
       const response = await axios.post(
         'https://api.openai.com/v1/engines/text-davinci-003/completions',
         {

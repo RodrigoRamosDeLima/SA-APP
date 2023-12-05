@@ -39,7 +39,7 @@ export default function Profile() {
           style={{ width: 180, height: 180 }}
         />
         <View style={styles.icons}>
-          {/* <Ionicons name="receipt-outline" size={25} color={'#8a08bb'} /> */}
+          
           <TouchableOpacity onPress={toggleBarBotModal}>
             <Ionicons name="wine-outline" size={30} color={'#8a08bb'} />
           </TouchableOpacity>

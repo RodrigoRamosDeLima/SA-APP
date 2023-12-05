@@ -29,7 +29,6 @@ export default function Cadastro({ navigation }) {
   const handleRegister = async () => {
     try {
       await validationSchema.validate({ name, email, password });
-      // Aqui você deve registrar o usuário no seu banco de dados
       Alert.alert('Sucesso', 'Cadastro efetuado com sucesso!');
       navigation.navigate('Login');
     } catch (error) {
